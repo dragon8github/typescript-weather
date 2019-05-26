@@ -1,19 +1,18 @@
-const fs = require('fs');
-const program = require('commander');
+const colors = require('colors');
+const commander = require('commander');
 const pkg = require('../package.json');
 
-program
+commander
   .version(pkg.version)
   .description(pkg.description)
   .usage('[options] <command> [...]')
-  .option('-o, --host <hostname>', 'hostname [localhost]', 'localhost')
-  .option('-p, --port <number>', 'port number [9200]', '9200')
-  .option('-j, --json', 'format output as JSON')
-  .option('-i, --index <name>', 'which index to use')
-  .option('-t, --type <type>', 'default type for bulk operations');
+  .option('-c, --city [name]', 'Add city name')
+  .parse(process.argv);
 
-program.parse(process.argv);
-
-if (!program.args.filter((arg: []) => typeof arg === 'object').length) {
-  program.help();
+if (process.argv.slice(2).length === 0) {
+    commander.outputHelp(colors.red);
+    process.exit()
 }
+
+// $ yarn ts-node src/index.ts
+console.log(commander.city) // => dongguan
